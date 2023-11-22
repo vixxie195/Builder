@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Builder</title>
+</head>
+<body>
+
+<script>
+    // Клас WebPage
+    class WebPage {
+        constructor(title, header, content, footer) {
+            this.title = title;
+            this.header = header;
+            this.content = content;
+            this.footer = footer;
+        }
+
+        render() {
+            document.write(`<h1>${this.title}</h1>`);
+            document.write(`<header>${this.header}</header>`);
+            document.write(`<article>${this.content}</article>`);
+            document.write(`<footer>${this.footer}</footer>`);
+        }
+    }
+
+    // Клас WebPageBuilder
+    class WebPageBuilder {
+        constructor() {
+            this.title = '';
+            this.header = '';
+            this.content = '';
+            this.footer = '';
+        }
+
+        withTitle(title) {
+            this.title = title;
+            return this;
+        }
+
+        withHeader(header) {
+            this.header = header;
+            return this;
+        }
+
+        withContent(content) {
+            this.content = content;
+            return this;
+        }
+
+        withFooter(footer) {
+            this.footer = footer;
+            return this;
+        }
+
+        build() {
+            return new WebPage(this.title, this.header, this.content, this.footer);
+        }
+    }
+
+    // Клас WebPageDirector
+    class WebPageDirector {
+        createArticle(content) {
+            const builder = new WebPageBuilder();
+            return builder
+                .withTitle('Title')
+                .withHeader('Header')
+                .withContent(content)
+                .withFooter('Footer')
+                .build();
+        }
+
+        createForm(title, fields) {
+            const builder = new WebPageBuilder();
+            return builder
+                .withTitle(title)
+                .withHeader('Form Header')
+                .withContent(`Form Fields: ${fields}`)
+                .build();
+        }
+    }
+
+    // Примери
+    const director = new WebPageDirector();
+
+    const articlePage = director.createArticle('Article content...');
+    articlePage.render();
+
+    const formPage = director.createForm('Form', '¯\\_(ツ)_/¯, ¯\\_(ツ)_/¯ 2.0, ¯\\_(ツ)_/¯ 3.0');
+    formPage.render();
+</script>
+
+</body>
+</html>
